@@ -1,16 +1,25 @@
 -- ============================================================
--- VibeCoding Auth Table Setup
--- Run this script once to prepare the database for auth
+-- VibeCoding MySQL Setup
+-- Run once in your MySQL database (vibecodingdb)
 -- ============================================================
 
--- Drop table if re-running setup
-IF OBJECT_ID('dbo.AppUsers', 'U') IS NOT NULL
-  DROP TABLE dbo.AppUsers;
+CREATE DATABASE IF NOT EXISTS vibecodingdb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE dbo.AppUsers (
-  id           INT IDENTITY(1,1) PRIMARY KEY,
-  name         NVARCHAR(100)  NOT NULL,
-  email        NVARCHAR(255)  NOT NULL UNIQUE,
-  password_hash NVARCHAR(255) NOT NULL,
-  created_at   DATETIME2      NOT NULL DEFAULT GETUTCDATE()
+USE vibecodingdb;
+
+-- General users table (CRUD demo)
+CREATE TABLE IF NOT EXISTS Users (
+  id         INT          AUTO_INCREMENT PRIMARY KEY,
+  name       VARCHAR(100) NOT NULL,
+  email      VARCHAR(255) NOT NULL UNIQUE,
+  created_at DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Auth users table
+CREATE TABLE IF NOT EXISTS AppUsers (
+  id            INT          AUTO_INCREMENT PRIMARY KEY,
+  name          VARCHAR(100) NOT NULL,
+  email         VARCHAR(255) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  created_at    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

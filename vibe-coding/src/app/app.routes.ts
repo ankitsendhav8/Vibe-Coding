@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,18 @@ export const routes: Routes = [
     path: 'signup',
     loadComponent: () => import('./pages/signup/signup.component').then(m => m.SignupComponent),
     title: 'Sign Up — VibeCoding'
+  },
+  {
+    path: 'members',
+    loadComponent: () => import('./pages/members/members.component').then(m => m.MembersComponent),
+    title: 'Community Members — VibeCoding',
+    canActivate: [authGuard]
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./pages/profile/profile.component').then(m => m.ProfileComponent),
+    title: 'My Profile — VibeCoding',
+    canActivate: [authGuard]
   },
   {
     path: '**',

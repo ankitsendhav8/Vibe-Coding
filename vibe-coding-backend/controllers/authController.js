@@ -1,5 +1,19 @@
 const authService = require('../services/authService');
 
+const getMe = async (req, res, next) => {
+  try {
+    const user = await authService.getUserById(req.user.id);
+    if (!user) {
+      const err = new Error('User not found.');
+      err.statusCode = 404;
+      return next(err);
+    }
+    res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const signup = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -43,4 +57,4 @@ const getActiveUsers = async (req, res, next) => {
   }
 };
 
-module.exports = { signup, login, getActiveUsers };
+module.exports = { getMe, signup, login, getActiveUsers };

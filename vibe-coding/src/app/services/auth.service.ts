@@ -70,6 +70,15 @@ export class AuthService {
     );
   }
 
+  getMe(): Observable<{ success: boolean; data: AppUser }> {
+    return this.http.get<{ success: boolean; data: AppUser }>(`${this.apiUrl}/me`).pipe(
+      tap(res => {
+        localStorage.setItem(USER_KEY, JSON.stringify(res.data));
+        this._currentUser$.next(res.data);
+      })
+    );
+  }
+
   getActiveUsers(): Observable<UsersResponse> {
     return this.http.get<UsersResponse>(`${this.apiUrl}/users`);
   }

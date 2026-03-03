@@ -9,16 +9,27 @@
       <ul class="nav-list">
         <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()">Home</a></li>
         <li><a routerLink="/about" routerLinkActive="active" (click)="closeMenu()">About Us</a></li>
+        @if (authService.currentUser$ | async) {
+          <li>
+            <a routerLink="/members" routerLinkActive="active" (click)="closeMenu()" class="members-link">
+              <span class="members-dot"></span>
+              Members
+            </a>
+          </li>
+        }
         <li><a routerLink="/terms" routerLinkActive="active" (click)="closeMenu()">Terms & Conditions</a></li>
       </ul>
 
       <div class="nav-auth">
         @if (authService.currentUser$ | async; as user) {
           <!-- Logged in state -->
-          <div class="user-pill">
+          <a routerLink="/profile" class="user-pill" (click)="closeMenu()" title="View Profile">
             <div class="user-avatar-sm">{{ user.name[0].toUpperCase() }}</div>
             <span class="user-name-sm">{{ user.name.split(' ')[0] }}</span>
-          </div>
+            <svg class="profile-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
           <button class="btn-logout" (click)="logout()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>

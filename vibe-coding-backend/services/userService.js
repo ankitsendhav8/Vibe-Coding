@@ -1,52 +1,44 @@
-const { sql, getPool } = require('../config/db');
+const { getPool } = require('../config/db');
 
 const getAllUsers = async () => {
   const pool = getPool();
-  const result = await pool.request().query('SELECT * FROM Users');
-  return result.recordset;
+  const [rows] = await pool.query('SELECT * FROM Users');
+  return rows;
 };
 
 const getUserById = async (id) => {
   const pool = getPool();
-  const result = await pool
-    .request()
-    .input('id', sql.Int, id)
-    .query('SELECT * FROM Users WHERE id = @id');
-  return result.recordset[0] || null;
+  const [rows] = await pool.query('SELECT * FROM Users WHERE id = ?', [id]);
+  return rows[0] || null;
 };
 
 const createUser = async ({ name, email }) => {
   const pool = getPool();
-  const result = await pool
-    .request()
-    .input('name', sql.NVarChar, name)
-    .input('email', sql.NVarChar, email)
-    .query(
-      'INSERT INTO Users (name, email) OUTPUT INSERTED.* VALUES (@name, @email)'
-    );
-  return result.recordset[0];
+  const [result] = await pool.query(
+    'INSERT INTO Users (name, email) VALUES (?, ?)',
+    [name, email]
+  );
+  const [rows] = await pool.query('SELECT * FROM Users WHERE id = ?', [result.insertId]);
+  return rows[0];
 };
 
 const updateUser = async (id, { name, email }) => {
   const pool = getPool();
-  const result = await pool
-    .request()
-    .input('id', sql.Int, id)
-    .input('name', sql.NVarChar, name)
-    .input('email', sql.NVarChar, email)
-    .query(
-      'UPDATE Users SET name = @name, email = @email OUTPUT INSERTED.* WHERE id = @id'
-    );
-  return result.recordset[0] || null;
+  const [result] = await pool.query(
+    'UPDATE Users SET name = ?, email = ? WHERE id = ?',
+    [name, email, id]
+  );
+  if (result.affectedRows === 0) return null;
+  const [rows] = await pool.query('SELECT * FROM Users WHERE id = ?', [id]);
+  return rows[0] || null;
 };
 
 const deleteUser = async (id) => {
   const pool = getPool();
-  const result = await pool
-    .request()
-    .input('id', sql.Int, id)
-    .query('DELETE FROM Users OUTPUT DELETED.* WHERE id = @id');
-  return result.recordset[0] || null;
+  const [rows] = await pool.query('SELECT * FROM Users WHERE id = ?', [id]);
+  if (rows.length === 0) return null;
+  await pool.query('DELETE FROM Users WHERE id = ?', [id]);
+  return rows[0];
 };
 
 module.exports = { getAllUsers, getUserById, createUser, updateUser, deleteUser };
