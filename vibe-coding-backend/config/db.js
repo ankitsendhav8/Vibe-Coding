@@ -1,15 +1,29 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 
+// MYSQL Connection
+// const dbConfig = {
+//   host:     process.env.DB_SERVER,
+//   port:     parseInt(process.env.DB_PORT),
+//   database: process.env.DB_NAME,
+//   user:     process.env.DB_USER,
+//   password: process.env.DB_PASSWORD,
+//   waitForConnections: true,
+//   connectionLimit:    10,
+//   queueLimit:         0,
+// };
+
+
+// TIDB Connection
 const dbConfig = {
-  host:     process.env.DB_SERVER   || 'localhost',
-  port:     parseInt(process.env.DB_PORT) || 3306,
+  host:     process.env.DB_SERVER,
+  port:     parseInt(process.env.DB_PORT),
   database: process.env.DB_NAME,
   user:     process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  waitForConnections: true,
-  connectionLimit:    10,
-  queueLimit:         0,
+  ssl: {
+    rejectUnauthorized: true
+  }
 };
 
 let pool = null;
