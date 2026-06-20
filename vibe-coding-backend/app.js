@@ -16,15 +16,7 @@ const app = express();
 
 // Security & utility middleware
 app.use(helmet());
-app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL,
-    'http://localhost:4200',
-    'https://vibe-coding-backend-giio.onrender.com'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-}));
+app.use(cors());
 app.use(logger(process.env.NODE_ENV === 'development' ? 'dev' : 'combined'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
