@@ -19,27 +19,31 @@ Vibe Coding is a full-stack web application built using Angular for the frontend
 - MySQL (Local Development)
 - TiDB Cloud (Production)
 
-## Project Structure
 
-```text
-Vibe-Coding/
-├── vibe-coding/           # Angular Frontend
-└── vibe-coding-backend/   # Node.js Backend
-```
-
-## Getting Started
 
 ### Clone the Repository
 
+### Frontend Setup
+
 ```bash
-git clone https://github.com/ankitsendhav8/Vibe-Coding.git
-cd Vibe-Coding
+git clone https://github.com/ankitsendhav8/vibe-coding-frontend.git
+cd vibe-coding-frontend
+npm install
+npm start
 ```
+
+Frontend will run on:
+
+```text
+http://localhost:4200
+```
+
 
 ### Backend Setup
 
 ```bash
-cd vibe-coding-backend
+git clone https://github.com/ankitsendhav8/Vibe-Coding.git
+cd Vibe-Coding/vibe-coding-backend
 npm install
 npm start
 ```
@@ -50,45 +54,41 @@ Backend will run on:
 http://localhost:3000
 ```
 
-### Frontend Setup
-
-Open a new terminal and run:
-
-```bash
-cd vibe-coding
-npm install
-ng serve
-```
-
-Frontend will run on:
-
-```text
-http://localhost:4200
-```
 
 ## Environment Variables
 
-Create a `.env` file inside the `vibe-coding-backend` folder:
+Create a `.env` file inside the `Vibe-Coding/vibe-coding-backend` folder:
 
 ```env
 PORT=3000
+NODE_ENV=development
+FRONTEND_URL=http://localhost:4200
+
+== MYSQL CONNECTION
 
 DB_HOST=localhost
 DB_PORT=3306
-DB_USER=root
+DB_USER=your_user
 DB_PASSWORD=your_password
 DB_NAME=vibecodingdb
 
+== TIDB Connection
+
+DB_SERVER=gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com
+DB_PORT=4000
+DB_NAME=vibecodingdb
+DB_USER=your_user
+DB_PASSWORD=your_password
+
 JWT_SECRET=your_secret_key
+JWT_EXPIRES_IN=7d
 ```
 
 ## Live Application
 
-### Frontend (Netlify)
+### Frontend
 
-https://vibe-coding.netlify.app
-
-
+https://vibe-coding-frontend-giio.onrender.com
 ## Database
 
 The application uses:
