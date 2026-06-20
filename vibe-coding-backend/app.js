@@ -17,7 +17,10 @@ const app = express();
 // Security & utility middleware
 app.use(helmet());
 app.use(cors({
-  origin: ['http://localhost:4200', process.env.FRONTEND_URL,],
+  origin: [
+    process.env.FRONTEND_URL,
+    'http://localhost:4200',
+    'https://vibe-coding-backend-giio.onrender.com'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,

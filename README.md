@@ -88,7 +88,7 @@ JWT_EXPIRES_IN=7d
 
 ### Frontend
 
-https://vibe-coding-frontend-giio.onrender.com
+https://vibe-coding-frontend-ikrw.onrender.com
 ## Database
 
 The application uses:
